@@ -2,24 +2,27 @@ package exercise;
 
 import java.util.*;
 
-public class App {
-     public static Map<String,Integer> getWordCount(String sentence){
-         List<String> list=new ArrayList<>(Arrays.asList(sentence.split(" ")));
-         Map <String,Integer> map=new HashMap<>();
-         for (String word : list)
-         {
-             if (!map.containsKey(word))
-             {
-                 map.put(word, 0);
-             }
-             map.put(word, map.get(word) + 1);
-         }
-         return map;
+class App {
+    public static Map getWordCount(String sentence) {
 
-     }
+        String[] words = sentence.split(" ");
+        Map map = new HashMap();
 
+        if (sentence.length() == 0) {
+            return map;
+        }
 
-    public static String toString(Map<String,Integer>wordsCount){
+        for (String word : words) {
+            int wordCount = (int) map.getOrDefault(word, 0);
+            wordCount += 1;
+            map.put(word, wordCount);
+        }
+
+        return map;
+    }
+
+    public static String toString(Map wordsCount) {
+
         if (wordsCount.isEmpty()) {
             return "{}";
         }
@@ -33,9 +36,4 @@ public class App {
         result.append("}");
         return result.toString();
     }
-
-    public static void main(String[] args) {
-        System.out.println(App.toString(App.getWordCount("word text dog apple word apple word")));
-    }
 }
-
