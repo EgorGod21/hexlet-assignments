@@ -6,16 +6,17 @@ class App {
     public static Map getWordCount(String sentence) {
 
         String[] words = sentence.split(" ");
-        Map map = new HashMap();
+        Map <String,Integer> map = new HashMap();
 
         if (sentence.length() == 0) {
             return map;
         }
 
         for (String word : words) {
-            int wordCount = (int) map.getOrDefault(word, 0);
-            wordCount += 1;
-            map.put(word, wordCount);
+            if (!map.containsKey(word))
+            map.put(word, 0);
+
+            map.put(word, map.get(word)+1);
         }
 
         return map;
