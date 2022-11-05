@@ -19,12 +19,19 @@ public class App {
      }
 
 
-    public static String toString(Map<String,Integer>map){
-      String value="";
-         for (Map.Entry<String,Integer>t: map.entrySet()){
-          value+="\n  "+t.getKey()+": "+t.getValue();
-      }
-         return value+"\n";
+    public static String toString(Map<String,Integer>wordsCount){
+        if (wordsCount.isEmpty()) {
+            return "{}";
+        }
+
+        StringBuilder result = new StringBuilder("{\n");
+
+        for (Object key : wordsCount.keySet()) {
+            result.append("  " + key + ": " + wordsCount.get(key) + "\n");
+        }
+
+        result.append("}");
+        return result.toString();
     }
 
     public static void main(String[] args) {
