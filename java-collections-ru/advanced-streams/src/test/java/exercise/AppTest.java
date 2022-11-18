@@ -27,8 +27,8 @@ class AppTest {
 
     @BeforeAll
     public static void beforeAll() throws Exception {
-        data1 = "s1.conf";
-        data2 ="s2.conf";
+        data1 = readFixture("s1.conf");
+        data2 = readFixture("s2.conf");
     }
 
     @Test

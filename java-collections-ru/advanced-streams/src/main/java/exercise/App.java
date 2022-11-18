@@ -9,12 +9,17 @@ import java.util.Arrays;
 
 public class App {
 public static String getForwardedVariables(String path){
-if (path.equals("s1.conf")){
-    return "variable=value";
-}
-if (path.equals("s2.conf")){
-    return "var1=111,var2=123,var3=value,mail=tirion@google.com,HOME=/home/tirion";
-}
-    return path;
-}
-}
+    String[] lines = path.split("\n");
+    return Arrays.stream(lines)
+            .filter(x->x.startsWith("environment="))
+            .map(x->x.replaceAll("environment=\"",""))
+            .map(x->x.replaceAll("\"",""))
+            .map(s->s.split(","))
+            .flatMap(s->Arrays.stream(s))
+            .filter(s->s.startsWith("X_FORWARDED_"))
+            .map(s->s.replaceAll("X_FORWARDED_",""))
+            .collect(Collectors.joining(","));
+
+
+
+}}
