@@ -8,7 +8,7 @@ public class Cottage implements Home{
         this.floorCount = floorCount;
     }
 
-    
+
     @Override
     public double getArea() {
         return this.area;

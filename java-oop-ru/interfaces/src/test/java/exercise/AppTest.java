@@ -56,7 +56,16 @@ class AppTest {
         assertThat(result).isEqualTo(expected);
     }
 
-    // BEGIN
-    
-    // END
+    @Test
+    void testReversedSequence() {
+        CharSequence text = new ReversedSequence("abcdef");
+        assertThat(text.toString()).isEqualTo("fedcba");
+
+        assertThat(text.length()).isEqualTo(6);
+
+        assertThat(text.charAt(1)).isEqualTo('e');
+        assertThat(text.charAt(4)).isEqualTo('b');
+
+        assertThat(text.subSequence(1, 4).toString()).isEqualTo("edc");
+    }
 }
