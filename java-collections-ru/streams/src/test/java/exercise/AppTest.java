@@ -1,53 +1,55 @@
 package exercise;
 
+import exercise.data.*;
+
+import exercise.data.University;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
-import java.util.List;
-import java.util.Arrays;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import org.junit.jupiter.api.BeforeAll;
+import java.util.NoSuchElementException;
 
-class AppTest {
-    @Test
-    void testBuildList() {
-        String[] emails = {
-            "info@gmail.com",
-            "info@yandex.ru",
-            "info@hotmail.com",
-            "mk@host.com",
-            "support@hexlet.io",
-            "key@yandex.ru",
-            "sergey@gmail.com",
-            "vovan@gmail.com",
-            "vovan@hotmail.com"
-        };
-        List<String> emailsList = Arrays.asList(emails);
-        assertThat(App.getCountOfFreeEmails(emailsList)).isEqualTo(7);
+public class AppTest {
+
+    private static int studentsCount = 5;
+    private static Student[] students = new Student[studentsCount];
+
+    @BeforeAll
+    static void prepareData() {
+        for (var i = 0; i < studentsCount; i++) {
+            students[i] = new Student();
+        }
     }
 
     @Test
-    void testBuildList2() {
-        String[] emails = {
-            "info@yandex.ru",
-            "mk@host.com",
-            "support@hexlet.io",
-            "key@yandex.ru",
-            "sergey@gmail.com",
-            "vovan@gmail.com",
-            "support.yandex.ru@host.com",
-            "support.yandex.ru@hexlet.io"
-        };
-        List<String> emailsList = Arrays.asList(emails);
-        assertThat(App.getCountOfFreeEmails(emailsList)).isEqualTo(4);
+    void testGroup() {
+
+        var group = new Group(students);
+        var iterator = group.iterator();
+
+        assertThat(iterator.hasNext()).isTrue();
+        assertThat(iterator.next()).isEqualTo(students[0]);
+        assertThat(iterator.next()).isEqualTo(students[1]);
+        assertThat(iterator.next()).isEqualTo(students[2]);
+        assertThat(iterator.next()).isEqualTo(students[3]);
+        assertThat(iterator.next()).isEqualTo(students[4]);
+
+        assertThatThrownBy(() ->  iterator.next()).isInstanceOf(NoSuchElementException.class);
     }
 
     @Test
-    void testBuildList3() {
-        String[] emails = {
-            "mk@host.com",
-            "support@hexlet.io",
-            "support.yandex.ru@host.com",
-            "support.yandex.ru@hexlet.io"
-        };
-        List<String> emailsList = Arrays.asList(emails);
-        assertThat(App.getCountOfFreeEmails(emailsList)).isEqualTo(0);
+    void testUniversity() {
+
+        var university = new University(students);
+        var iterator = university.iterator();
+
+        assertThat(iterator.hasNext()).isTrue();
+        assertThat(iterator.next()).isEqualTo(students[0]);
+        assertThat(iterator.next()).isEqualTo(students[1]);
+        assertThat(iterator.next()).isEqualTo(students[2]);
+        assertThat(iterator.next()).isEqualTo(students[3]);
+        assertThat(iterator.next()).isEqualTo(students[4]);
+
+        assertThatThrownBy(() ->  iterator.next()).isInstanceOf(NoSuchElementException.class);
     }
 }

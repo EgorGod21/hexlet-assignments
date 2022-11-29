@@ -1,4 +1,4 @@
-package exercise.connections;
+package connections;
 
 import exercise.TcpConnection;
 

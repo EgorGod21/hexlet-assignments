@@ -1,5 +1,6 @@
 package exercise;
 
+
 public class ReversedSequence implements CharSequence{
     private String text;
 
@@ -25,3 +26,4 @@ public class ReversedSequence implements CharSequence{
         return text;
     }
 }
+
