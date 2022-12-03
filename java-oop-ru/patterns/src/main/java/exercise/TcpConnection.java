@@ -7,14 +7,15 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class TcpConnection implements Connection{
-    private List<String> list=new ArrayList<>();
-    private Connection connection;
-    private String ip;
+    Connection connection;
+    private String id;
     private int port;
-    public TcpConnection(String ip, int port){
-      this.ip=ip;
-      this.port=port;
+    private List<String> list=new ArrayList<>();
 
+    public TcpConnection(String id, int port) {
+        this.id = id;
+        this.port = port;
+        connection=new Disconnected(this);
     }
 
     @Override
@@ -24,22 +25,20 @@ public class TcpConnection implements Connection{
 
     @Override
     public void connect() {
-        if (connection==null || connection instanceof Disconnected){
-      connection=new Connected(this);}
-        else
-      connection.connect();
+     connection.connect();
     }
 
     @Override
     public void disconnect() {
-        if (connection==null || connection instanceof Connected){
-      connection=new Disconnected(this);}
-        else
-      connection.disconnect();
+     connection.disconnect();
     }
 
     @Override
     public void write(String st) {
-        list.add(st);
+      list.add(st);
+    }
+
+    public void setConnection(Connection connection) {
+        this.connection = connection;
     }
 }

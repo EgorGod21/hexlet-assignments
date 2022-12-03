@@ -3,10 +3,12 @@ package exercise.connections;
 import exercise.TcpConnection;
 
 public class Connected implements Connection{
-    private TcpConnection tcpConnection;
-    public Connected(TcpConnection tcpConnection){
-        this.tcpConnection=tcpConnection;
+    TcpConnection connection;
+
+    public Connected(TcpConnection connection) {
+        this.connection = connection;
     }
+
     @Override
     public String getCurrentState() {
         return "connected";
@@ -19,14 +21,11 @@ public class Connected implements Connection{
 
     @Override
     public void disconnect() {
-        TcpConnection tcpConnection=this.tcpConnection;
-        tcpConnection.disconnect();
-
+     connection.setConnection(new Disconnected(connection));
     }
 
     @Override
     public void write(String st) {
-        TcpConnection tcpConnection1=this.tcpConnection;
-        tcpConnection1.write(st);
+     connection.write(st);
     }
 }
