@@ -1,11 +1,12 @@
 package exercise;
 
-import exercise.servlet.UploadServlet;
 import org.apache.catalina.LifecycleException;
 import org.apache.catalina.startup.Tomcat;
 import org.apache.catalina.Context;
-
 import java.io.File;
+
+import exercise.servlet.WelcomeServlet;
+import exercise.servlet.CompaniesServlet;
 
 public class App {
 
@@ -17,21 +18,21 @@ public class App {
         return 5000;
     }
 
-    public static void main(String[] args) {
-
-    }
-
     public static Tomcat getApp(int port) {
         Tomcat app = new Tomcat();
 
         app.setBaseDir(System.getProperty("java.io.tmpdir"));
-        app.getHost().setName("hexlet.local");
         app.setPort(port);
 
         Context ctx = app.addContext("", new File(".").getAbsolutePath());
 
-        app.addServlet(ctx, UploadServlet.class.getSimpleName(), new UploadServlet());
-        ctx.addServletMappingDecoded("/upload", UploadServlet.class.getSimpleName());
+        app.addServlet(ctx, WelcomeServlet.class.getSimpleName(), new WelcomeServlet());
+        ctx.addServletMappingDecoded("", WelcomeServlet.class.getSimpleName());
+
+        // BEGIN
+        app.addServlet(ctx,CompaniesServlet.class.getSimpleName(),new CompaniesServlet());
+        ctx.addServletMappingDecoded("/companies", CompaniesServlet.class.getSimpleName());
+        // END
 
         return app;
     }
