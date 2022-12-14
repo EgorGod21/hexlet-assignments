@@ -1,9 +1,9 @@
 FROM gradle:7.4.0-jdk17
 
-WORKDIR /submit java-web-ru/servlet
+WORKDIR /submit java-web-ru/deploy
 
-COPY /app .
+COPY /deploy .
 
 RUN gradle installDist
 
-CMD ./build/install/servlet/bin/servlet
+CMD ./build/install/deploy/bin/deploy
