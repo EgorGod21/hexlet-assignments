@@ -48,4 +48,90 @@ class AppTest {
         assertThat(content.trim()).isEqualTo("open something like /companies or /companies?search=ol");
     }
 
+    @Test
+    void testCompaniesAll() throws IOException, ParseException {
+        HttpGet request = new HttpGet(baseUrl + "/companies");
+        CloseableHttpResponse response = client.execute(request);
+
+        HttpEntity entity = response.getEntity();
+        String content = EntityUtils.toString(entity);
+
+        assertThat(response.getCode()).isEqualTo(200);
+        List<String> companies = List.of(content.trim().split("\n"));
+        assertThat(companies).isEqualTo(getCompanies());
+    }
+
+    @Test
+    void testCompaniesFilterEmpty() throws IOException, ParseException {
+        HttpGet request = new HttpGet(baseUrl + "/companies?search=");
+        CloseableHttpResponse response = client.execute(request);
+
+        HttpEntity entity = response.getEntity();
+        String content = EntityUtils.toString(entity);
+
+        assertThat(response.getCode()).isEqualTo(200);
+        List<String> companies = List.of(content.trim().split("\n"));
+        assertThat(companies).isEqualTo(getCompanies());
+    }
+
+    @Test
+    void testCompaniesFilter1() throws IOException, ParseException {
+        HttpGet request = new HttpGet(baseUrl + "/companies?search=ol");
+        CloseableHttpResponse response = client.execute(request);
+
+        HttpEntity entity = response.getEntity();
+        String content = EntityUtils.toString(entity);
+
+        assertThat(response.getCode()).isEqualTo(200);
+        List<String> companies = List.of(content.split("\n"));
+        List<String> expected = List.of(
+            "Lueilwitz, Reynolds and Schumm Inc",
+            "Volkman-Morar and Sons",
+            "Ward, Dickens and Gerhold and Sons",
+            "Wolff, Carter and Beatty and Sons",
+            "Legros, Cruickshank and Nikolaus LLC",
+            "Gerhold Group and Sons",
+            "Wiegand-Pollich Inc",
+            "Herman, Wolff and Cassin Group",
+            "Bartoletti and Sons LLC",
+            "Goldner, Christiansen and Botsford LLC"
+        );
+        assertThat(companies).isEqualTo(expected);
+    }
+
+    @Test
+    void testCompaniesFilter2() throws IOException, ParseException {
+        HttpGet request = new HttpGet(baseUrl + "/companies?search=ov");
+        CloseableHttpResponse response = client.execute(request);
+
+        HttpEntity entity = response.getEntity();
+        String content = EntityUtils.toString(entity);
+
+        assertThat(response.getCode()).isEqualTo(200);
+        List<String> companies = List.of(content.trim().split("\n"));
+        List<String> expected = List.of(
+            "Cartwright-Glover and Sons",
+            "Hermann, Macejkovic and Brekke Group"
+        );
+        assertThat(companies).isEqualTo(expected);
+    }
+
+    @Test
+    void testCompaniesFilter3() throws IOException, ParseException {
+        HttpGet request = new HttpGet(baseUrl + "/companies?search=tl");
+        CloseableHttpResponse response = client.execute(request);
+
+        HttpEntity entity = response.getEntity();
+        String content = EntityUtils.toString(entity);
+
+        assertThat(response.getCode()).isEqualTo(200);
+        List<String> companies = List.of(content.trim().split("\n"));
+        List<String> expected = List.of("Companies not found");
+        assertThat(companies).isEqualTo(expected);
+    }
+
+    @AfterAll
+    public static void tearDown() throws LifecycleException {
+        app.stop();
+    }
 }
