@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +29,11 @@ public class UsersServlet extends HttpServlet {
                 throws IOException, ServletException {
 
         String pathInfo = request.getPathInfo();
-        getUsers();
+        try {
+            getUsers();
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
         if (pathInfo == null) {
             showUsers(request, response);
             return;
@@ -40,9 +45,9 @@ public class UsersServlet extends HttpServlet {
         showUser(request, response, id);
     }
 
-    private List getUsers() throws JsonProcessingException, IOException {
+    private List getUsers() throws JsonProcessingException, IOException, URISyntaxException {
         StringBuilder stringBuilder=new StringBuilder();
-        try (FileReader fileReader=new FileReader("C:\\Users\\Годзун Егор Андрей\\Hexlet\\hexlet-assignments\\java-web-ru\\html\\src\\main\\resources\\users.json");
+        try (FileReader fileReader=new FileReader(new File(Thread.currentThread().getContextClassLoader().getResource("users.json").toURI()));
              BufferedReader bufferedReader=new BufferedReader(fileReader)) {
             while (bufferedReader.ready()){
                 stringBuilder.append(bufferedReader.readLine());
