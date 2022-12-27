@@ -299,7 +299,7 @@ class AppTest {
         String content2 = EntityUtils.toString(entity2);
 
         // Проверяем, что flash-сообщение выводится только один раз
-      
+
         HttpPost postRequest2 = new HttpPost(baseUrl + "/logout");
         CloseableHttpResponse response3 = client.execute(postRequest2);
         HttpEntity entity3 = response3.getEntity();
